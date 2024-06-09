@@ -1,6 +1,8 @@
-![Paul Leonard's Video Hosting Platform](assets/img/logo.png)
+<div align="center">
+  <img src="assets/img/logo.png" alt="Paul Leonard's Video Hosting Platform" />
+</div>
 
-# pauLeo - Paul Leonard's Video Hosting Platform
+# Paul Leonard's Video Hosting Platform
 
 Welcome to Paul Leonard's Video Hosting Platform – a bespoke solution designed to provide a seamless, branded video experience. This platform allows Paul Leonard to upload, manage, and share videos exclusively under his brand, ensuring high-quality, uninterrupted viewing for his audience.
 
