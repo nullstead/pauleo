@@ -54,6 +54,11 @@ app.get('/login', (req, res) => {
     res.render('auth/login', {title: 'Log in'})
 })
 
+//video page
+app.get('/video', (req, res) => {
+    res.render('videos/video', {title: 'Video'})
+})
+
 //admin upload videos
 app.get('/upload-videos', (req, res) => {
     res.render('admin/upload-videos', {title: 'Admin - Upload'})
