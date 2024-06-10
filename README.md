@@ -13,35 +13,65 @@ Welcome to Paul Leonard's Video Hosting Platform – a bespoke solution designed
 - [Project Structure](#setup-and-installation)
 - [Installation](#usage)
 - [Usage](#environment-variables)
-- [Contributing](#contributing)
 - [License](#license)
 - [Contact](#contact)
 
 ## Features
 
-- **Customized Branding:** Maintain brand integrity with a fully branded video platform.
-- **Video Management:** Upload and manage video content effortlessly.
-- **Secure Streaming:** Ensure your videos are secure and accessible only to your audience.
-- **User Engagement:** Engage viewers with comments and likes.
-- **Analytics:** Track video performance and user engagement.
-- **Shortened URLs:** Share videos easily with custom short URLs.
+1. **User Authentication:**
+  - Sign up with email and password.
+  - Email verification for account activation.
+  - Log in with email and password.
+  - Password reset feature.
 
-## Technology Stack
+2. **Video Management:**
+  - Admin can upload videos with titles and descriptions.
+  - Admin panel for managing uploaded videos.
 
-- **Backend:** Node.js, Express.js
-- **Database:** MySQL, Sequelize ORM
-- **Frontend:** HTML, CSS, JavaScript, EJS
-- **Authentication:** Passport.js
-- **Storage:** AWS S3 for video storage
-- **Deployment:** AWS EC2 or similar hosting service
+3. **Video Playback:**
+  - Users can navigate through video pages.
+  - Previous and next buttons for seamless video browsing.
+  - Playback controls (play/pause, volume, seek).
 
-## Setup and Installation
+4. **Brand Customization:**
+  - Boldly indicated business logo on video pages.
+  - Share button to share video links.
+
+
+## Technologies Used
+
+- **Node.js:** Backend JavaScript runtime environment.
+- **Express.js:** Web application framework for Node.js.
+- **MongoDB:** NoSQL database for storing user data and videos.
+- **Mongoose:** MongoDB object modeling tool for Node.js.
+- **JWT: JSON** Web Tokens for user authentication.
+- **bcrypt.js:** Library for hashing passwords.
+- **Multer:** Middleware for handling file uploads.
+- **Nodemailer:** Module for sending emails from Node.js.
+- **EJS:** Embedded JavaScript templates for server-side rendering.
+
+
+## Project Structure, Setup and Installation
+
+### Project Structure
+```bash
+video-platform/
+├── models/
+├── routes/
+├── controllers/
+├── middleware/
+├── views/
+├── public/
+├── uploads/
+├── .env
+├── app.js
+└── README.md
+```
 
 ### Prerequisites
 
 - Node.js
-- MySQL
-- AWS account with S3 setup
+- MongoDB
 - Git
 
 ### Installation
@@ -57,46 +87,35 @@ Welcome to Paul Leonard's Video Hosting Platform – a bespoke solution designed
    npm install
    ```
    
-3. **Configure Database**
-   Create a MySQL database and update the config/config.json file with your database credentials.
-
-4. **Run Migrations**
-   ```bash
-   npx sequelize-cli db:migrate
-   ```
-   
 5. **Set Up Environment Variables**
+   - Create a  `.env` file in the root directory.
+   - Define the following variables:
+     
     ```bash
-    AWS_ACCESS_KEY_ID=your_aws_access_key_id
-    AWS_SECRET_ACCESS_KEY=your_aws_secret_access_key
-    AWS_REGION=your_aws_region
-    AWS_BUCKET_NAME=your_s3_bucket_name
-    SESSION_SECRET=your_session_secret
+    PORT=3000
+    MONGO_URI=your_mongodb_connection_string
+    JWT_SECRET=your_jwt_secret
+    EMAIL_USER=your_email@example.com
+    EMAIL_PASS=your_email_password
    ```
 
-6. **Start the Server**
-   ```bash
-   npm start
-   ```
 
 ## Usage
 
-1. **Admin Login**
+1.**Start the Server**
+   ```bash
+   npm start
+   ```
+2. Access the application in your web browser at http://localhost:3000.
+   
+3. **Admin Login**
   Navigate to http://localhost:3000/login to access the admin login page. Use the credentials provided during user setup.
 
-2. **Upload Videos**
-  Once logged in, use the admin dashboard to upload new videos, manage existing videos, and track video performance.
+4. **Upload Videos**
+  Once logged in, use the admin dashboard to upload new videos, and manage existing videos.
 
-3. **View and Share Videos**
+5. **View and Share Videos**
   Videos can be viewed at http://localhost:3000/video/:video_id and shared using shortened URLs generated via the dashboard.
-
-
-## Environment Variables
-  `AWS_ACCESS_KEY_ID`: Your AWS access key ID
-  `AWS_SECRET_ACCESS_KEY`: Your AWS secret access key
-  `AWS_REGION`: The AWS region where your S3 bucket is located
-  `AWS_BUCKET_NAME`: The name of your S3 bucket
-  `SESSION_SECRET`: A secret key for session management
 
 
 ## Contributing
@@ -104,9 +123,10 @@ Welcome to Paul Leonard's Video Hosting Platform – a bespoke solution designed
   
   1. Fork the repository.
   2. Create a new branch (git checkout -b feature/your-feature).
-  3. Commit your changes (git commit -m 'Add your feature').
-  4. Push to the branch (git push origin feature/your-feature).
-  5. Open a pull request.
+  3. Make your changes.
+  4. Commit your changes (git commit -m 'Add your feature').
+  5. Push to the branch (git push origin feature/your-feature).
+  6. Open a pull request.
 
 
 ## License
