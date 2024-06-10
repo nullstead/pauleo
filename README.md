@@ -9,10 +9,10 @@ Welcome to Paul Leonard's Video Hosting Platform – a bespoke solution designed
 ## Table of Contents
 
 - [Features](#features)
-- [Technology Stack](#technology-stack)
-- [Setup and Installation](#setup-and-installation)
-- [Usage](#usage)
-- [Environment Variables](#environment-variables)
+- [Technologies Used](#technology-stack)
+- [Project Structure](#setup-and-installation)
+- [Installation](#usage)
+- [Usage](#environment-variables)
 - [Contributing](#contributing)
 - [License](#license)
 - [Contact](#contact)
