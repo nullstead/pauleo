@@ -9,10 +9,10 @@ Welcome to Paul Leonard's Video Hosting Platform – a bespoke solution designed
 ## Table of Contents
 
 - [Features](#features)
-- [Technologies Used](#technology-stack)
-- [Project Structure](#setup-and-installation)
-- [Installation](#usage)
-- [Usage](#environment-variables)
+- [Technologies Used](#technologies-used)
+- [Project Structure](#project-structure-setup-and-installation)
+- [Usage](#usage)
+- [Contributing](#contributing)
 - [License](#license)
 - [Contact](#contact)
 
@@ -102,7 +102,7 @@ video-platform/
 
 ## Usage
 
-1.**Start the Server**
+1. **Start the Server**
    ```bash
    npm start
    ```
