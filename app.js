@@ -1,5 +1,9 @@
 //---IMPORTS---
 const express = require('express');
+const mongoose = require('mongoose');
+
+const authRoutes = require('./routes/authRoutes');
+const videoRoutes = require('./routes/videoRoutes');
 
 
 
@@ -44,30 +48,11 @@ app.get('/about', (req, res) => {
     res.render('about', {title: 'About'})
 })
 
-//register
-app.get('/signup', (req, res) => {
-    res.render('auth/signup', {title: 'Register'})
-})
+//auth routes
+app.use('/auth', authRoutes)
 
-//login
-app.get('/login', (req, res) => {
-    res.render('auth/login', {title: 'Log in'})
-})
-
-//video page
-app.get('/video', (req, res) => {
-    res.render('videos/video', {title: 'Video'})
-})
-
-//admin upload videos
-app.get('/upload-videos', (req, res) => {
-    res.render('admin/upload-videos', {title: 'Admin - Upload'})
-})
-
-//admin list videos
-app.get('/list-videos', (req, res) => {
-    res.render('admin/list-videos', {title: 'Admin - Videos'})
-})
+//video routes
+app.use(videoRoutes)
 
 //404
 app.use((req, res) => {
