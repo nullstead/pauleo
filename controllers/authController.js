@@ -4,7 +4,9 @@ const bcrypt = require('bcrypt');
 //register page
 const registerPage = (req, res) => {
     const sessionData = req.session
-    res.render('auth/signup', {title: 'Register', sessionData})
+    const msg = req.query.msg;
+    const msg2 = req.query.msg2;
+    res.render('auth/signup', {title: 'Register', msg, msg2})
 }
 
 //register user
@@ -18,11 +20,13 @@ const registerUser = async (req, res) => {
         const emailExists = await User.findOne({email})
         // console.log(userExists)
         if(usernameExists !== null && usernameExists ){
-            res.status(401).send('Username is already taken!')
+            const msg = 'Username is already taken!'
+            res.redirect(`/auth/signup?msg=${encodeURIComponent(msg)}`)
             // console.log('User exists!')
 
         } else if(emailExists !== null && emailExists){
-            res.status(401).send('This email is already registered!')
+            const msg2 = 'Email is already registered!'
+            res.redirect(`/auth/signup?msg2=${encodeURIComponent(msg2)}`)
             // console.log('Email exists!')
 
         } else {
@@ -31,7 +35,7 @@ const registerUser = async (req, res) => {
             
             const result = await User.insertMany({username, email, password})
             // console.log(result)
-            
+            req.flash('success', 'Registration successful!');
             res.redirect('/auth/login')
         }
 
@@ -52,7 +56,8 @@ const loginPage = (req, res) => {
         res.redirect('/video')
 
     } else {
-        res.render('auth/login', {title: 'Log in'})
+        const msg = req.query.msg;
+        res.render('auth/login', {title: 'Log in', msg})
     }
     
 }
@@ -66,13 +71,15 @@ const logUserIn = async (req, res) => {
         if(credential.includes('@') && credential.includes('.')){
             const check = await User.findOne({email: credential})
             if(!check){
-                res.status(401).send('Invalid Credentials')
+                const msg = 'Invalid Credentials'
+                res.redirect(`/auth/login?msg=${encodeURIComponent(msg)}`)
                 // console.log('no user')
             } else {
                 // console.log(check.role, check.password)
                 const passwordVerify = await bcrypt.compare(password, check.password)
                 if(!passwordVerify){
-                    res.status(401).send('Invalid Credentials')
+                    const msg = 'Invalid Credentials'
+                    res.redirect(`/auth/login?msg=${encodeURIComponent(msg)}`)
                     // console.log('wrong password')
                 } else {
                     req.session.userId = check._id
@@ -81,6 +88,7 @@ const logUserIn = async (req, res) => {
                     req.session.role = check.role
 
                     if(check.role == 'user'){
+                        req.flash('success', 'Login successful!');
                         res.redirect('/video')
                     } else if(check.role == 'admin'){
                         res.redirect('/manage-videos')
@@ -92,13 +100,15 @@ const logUserIn = async (req, res) => {
         } else {
             const check = await User.findOne({username: credential})
             if(!check){
-                res.status(401).send('Invalid Credentials')
+                const msg = 'Invalid Credentials'
+                res.redirect(`/auth/login?msg=${encodeURIComponent(msg)}`)
                 // console.log('no user')
             } else {
                 // console.log(check.role, check.password)
                 const passwordVerify = await bcrypt.compare(password, check.password)
                 if(!passwordVerify){
-                    res.status(401).send('Invalid Credentials')
+                    const msg = 'Invalid Credentials'
+                    res.redirect(`/auth/login?msg=${encodeURIComponent(msg)}`)
                     // console.log('wrong password')
                 } else {
                     req.session.userId = check._id
@@ -107,8 +117,10 @@ const logUserIn = async (req, res) => {
                     req.session.role = check.role
 
                     if(check.role == 'user'){
+                        req.flash('success', 'Login successful!');
                         res.redirect('/video')
                     } else if(check.role == 'admin'){
+                        req.flash('success', 'Login successful!');
                         res.redirect('/manage-videos')
                     }
 

@@ -24,9 +24,27 @@
           </div>
         </div>
       </nav>
+  
+      <% if (messages.success) { %>
+        <% messages.success.forEach(function(message) { %>
+            <div style="width: fit-content; margin: auto;" id="flash" class="alert alert-success alert-dismissible fade show">
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                <%= message %>
+            </div>
+        <% }); %>
+    <% } %>
+    
+    <% if (messages.error) { %>
+        <% messages.error.forEach(function(message) { %>
+            <div style="width: fit-content; margin: auto;" id="flash" class="alert alert-danger alert-dismissible fade show">
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                <%= message %>
+            </div>
+        <% }); %>
+    <% } %>
 
       <br>
-      <p>Admin List Videos</p>
+      <h1>Admin List and Manage Videos</h1>
      
 
 
@@ -53,7 +71,7 @@
                }
  
                const data = await response.json();
-               alert(data.message);
+              //  alert(data.message);
                location.replace(data.redirect);
            } catch (error) {
                console.error('There has been a problem with your fetch operation:', error);

@@ -7,7 +7,8 @@ const videoPage = (req, res) => {
         res.render('videos/video', {title: 'Video', sessionData})
 
     } else {
-        res.render('auth/login', {title: 'Log in'})
+        const msg = "" //login page msg fix
+        res.render('auth/login', {title: 'Log in', msg})
     }
     
 }
@@ -19,7 +20,8 @@ const videoUploadPage = (req, res) => {
         res.render('admin/upload-videos', {title: 'Admin - Upload Videos'})
 
     } else {
-        res.render('auth/login', {title: 'Log in'})
+        const msg = "" //login page msg fix
+        res.render('auth/login', {title: 'Log in', msg})
     }
     
 }
@@ -31,7 +33,8 @@ const manageVideosPage = (req, res) => {
         res.render('admin/manage-videos', {title: 'Admin - Manage Videos', sessionData: req.session})
 
     } else {
-        res.render('auth/login', {title: 'Log in'})
+        const msg = "" //login page msg fix
+        res.render('auth/login', {title: 'Log in', msg})
     }
     
 }

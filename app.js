@@ -3,7 +3,7 @@ const express = require('express');
 const session = require('express-session');
 const MongoDBStore = require('connect-mongodb-session')(session);
 const mongoose = require('mongoose');
-var flash = require('express-flash-messages');
+var flash = require('connect-flash');
 
 const authRoutes = require('./routes/authRoutes');
 const videoRoutes = require('./routes/videoRoutes');
@@ -49,6 +49,13 @@ app.use(session({
         maxAge: 1000 * 60 * 60 * 24, // 1 day
     },
 }));
+
+app.use(flash());
+
+app.use((req, res, next) => {
+    res.locals.messages = req.flash();
+    next();
+});
 
 // Middleware to check if user is authenticated
 function isAuthenticated(req, res, next){
