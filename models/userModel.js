@@ -8,8 +8,8 @@ const userSchema = new Schema(
         password: {type: String, require: true},
         role: {type: String, enum: ['admin', 'user'], default: 'user'},
         isVerified: { type: Boolean, default: false },
-        password_reset_token: {type: String},
-        password_reset_expires: {type: Date}
+        passwordResetToken: {type: String},
+        passwordResetExpires: {type: Date}
 
     },
 

@@ -140,12 +140,10 @@ const logUserIn = async (req, res) => {
 
             if(!check){
                 const msg = 'Invalid Credentials'
-                const emailMsg = ''
                 return res.redirect(`/auth/login?msg=${encodeURIComponent(msg)}`)
-                // console.log('no user')
-            } 
-            
-            if (!check.isVerified) {
+                // console.log('no user')s
+
+            } else if (!check.isVerified) {
                 const emailErrMsg = 'Your email is not verified!'
                 console.log('Email not verified');
                 return res.redirect(`/auth/login?emailErrMsg=${encodeURIComponent(emailErrMsg)}`)
@@ -155,7 +153,7 @@ const logUserIn = async (req, res) => {
                 const passwordVerify = await bcrypt.compare(password, check.password)
                 if(!passwordVerify){
                     const msg = 'Invalid Credentials'
-                    res.redirect(`/auth/login?msg=${encodeURIComponent(msg)}`)
+                    return res.redirect(`/auth/login?msg=${encodeURIComponent(msg)}`)
                     // console.log('wrong password')
                 } else {
                     req.session.userId = check._id
@@ -165,9 +163,9 @@ const logUserIn = async (req, res) => {
 
                     if(check.role == 'user'){
                         req.flash('success', 'Login successful!');
-                        res.redirect('/video')
+                        return res.redirect('/video')
                     } else if(check.role == 'admin'){
-                        res.redirect('/manage-videos')
+                        return res.redirect('/manage-videos')
                     }
 
                 }
@@ -179,9 +177,8 @@ const logUserIn = async (req, res) => {
                     const msg = 'Invalid Credentials'
                     res.redirect(`/auth/login?msg=${encodeURIComponent(msg)}`)
                     // console.log('no user')
-                } 
-                
-                if (!check.isVerified) {
+
+                }else if (!check.isVerified) {
                     const emailErrMsg = 'Your email is not verified!'
                     console.log('Email not verified');
                     return res.redirect(`/auth/login?emailErrMsg=${encodeURIComponent(emailErrMsg)}`)
@@ -192,7 +189,7 @@ const logUserIn = async (req, res) => {
 
                     if(!passwordVerify){
                         const msg = 'Invalid Credentials'
-                        res.redirect(`/auth/login?msg=${encodeURIComponent(msg)}`)
+                        return res.redirect(`/auth/login?msg=${encodeURIComponent(msg)}`)
                         // console.log('wrong password')
                     } 
 
@@ -203,10 +200,10 @@ const logUserIn = async (req, res) => {
 
                     if(check.role == 'user'){
                         req.flash('success', 'Login successful!');
-                        res.redirect('/video')
+                        return res.redirect('/video')
                     } else if(check.role == 'admin'){
                         req.flash('success', 'Login successful!');
-                        res.redirect('/manage-videos')
+                        return res.redirect('/manage-videos')
                     }
 
                 }
@@ -214,8 +211,9 @@ const logUserIn = async (req, res) => {
         }
 
     } catch(e) {
-        res.status(500).send('Internal Server Error! :)')
         console.log(e)
+        return res.status(500).send('Internal Server Error! :)')
+        
     }
 
     
@@ -234,11 +232,105 @@ const userLogout = (req, res) => {
     })
 }
 
+
+
+ //password reset email
+ function sendPasswordResetEmail(user, token) {
+    const url = `http://localhost:3000/auth/newPassword/${token}`;
+    
+    transport.sendMail({
+        to: user.email,
+        subject: 'Password Reset',
+        html: `Click <a href="${url}">here</a> to reset your password.`,
+    });
+}
+
+
+
+ // Request password reset get
+ const requestPwdReset = (async (req, res) => {
+    return res.render('auth/pwd-reset', {title: 'Request Password Reset'})
+})
+
+// Request password reset 
+const requestPasswordReset = (async (req, res) => {
+    const { email } = req.body;
+
+    try {
+        const user = await User.findOne({ email });
+
+        if (!user) {
+            return res.status(400).send('Invalid email: not registered');
+        }
+
+        // Generate reset token
+        const token = jwt.sign({ userId: user._id }, JWT_SECRET, { expiresIn: '1h' });
+        
+        // Save token and expiration to user
+        user.passwordResetToken = token;
+        user.passwordResetExpires = Date.now() + 3600000; // 1 hour
+        await user.save();
+
+        // Send reset email
+        sendPasswordResetEmail(user, token);
+        // console.log('Password reset email sent')
+        res.send('Password reset email sent! Check your inbox to access the reset link.');
+    } catch (error) {
+        res.status(500).send('Internal server error');
+    }
+});
+
+// Password reset  get - new password
+const newPassword = (async (req, res) => {
+    const { token } = req.params;
+
+    return res.render('auth/new-pwd', {title: 'Reset Password', token})
+})
+
+// Password reset  post
+const resetPassword = (async (req, res) => {
+    const { token } = req.params;
+    const { password } = req.body;
+    // console.log(token, password)
+
+    try {
+        const decoded = jwt.verify(token, JWT_SECRET);
+        const user = await User.findOne({
+            _id: decoded.userId,
+            passwordResetToken: token,
+            passwordResetExpires: { $gt: Date.now() },
+        });
+
+        if (!user) {
+            return res.status(400).send('Invalid or expired token');
+        }
+
+        // Update password
+        user.password = await bcrypt.hash(password, 10);
+        user.passwordResetToken = undefined;
+        user.passwordResetExpires = undefined;
+        await user.save();
+
+        console.log('Password reset successful')
+        emailMsg = 'Password reset successful! Log In with your new password.'
+        res.redirect(`/auth/login/?emailMsg=${encodeURIComponent(emailMsg)}`);
+    } catch (error) {
+        res.status(400).send('Invalid token');
+    }
+});
+
+
+
+
 module.exports = {
     registerPage,
     registerUser,
     verifyEmail,
     loginPage,
     logUserIn,
-    userLogout
+    userLogout,
+    requestPwdReset,
+    requestPasswordReset,
+    newPassword,
+    resetPassword
 }
