@@ -4,12 +4,15 @@ const Video = require('../models/videoModel');
 const videoPage = (req, res) => {
     if(req.session.role == 'user'){
         const sessionData = req.session
-        res.render('videos/video', {title: 'Video', sessionData})
+        return res.render('videos/video', {title: 'Video', sessionData})
 
-    } else {
-        const msg = "" //login page msg fix
-        res.render('auth/login', {title: 'Log in', msg})
-    }
+    } 
+    // else {
+    //     const msg = "" //login page msg fix
+    //     const emailMsg = "" //login page msg fix
+    //     const emailErrMsg = "" //login page msg fix
+    //     return res.render('auth/login', {title: 'Log in', msg, emailMsg, emailErrMsg})
+    // }
     
 }
 
@@ -17,11 +20,11 @@ const videoPage = (req, res) => {
 //video upload page
 const videoUploadPage = (req, res) => {
     if(req.session.role == 'admin'){
-        res.render('admin/upload-videos', {title: 'Admin - Upload Videos'})
+        return res.render('admin/upload-videos', {title: 'Admin - Upload Videos'})
 
     } else {
         const msg = "" //login page msg fix
-        res.render('auth/login', {title: 'Log in', msg})
+        return res.render('auth/login', {title: 'Log in', msg})
     }
     
 }
@@ -30,11 +33,11 @@ const videoUploadPage = (req, res) => {
 //video management page
 const manageVideosPage = (req, res) => {
     if(req.session.role == 'admin'){
-        res.render('admin/manage-videos', {title: 'Admin - Manage Videos', sessionData: req.session})
+        return res.render('admin/manage-videos', {title: 'Admin - Manage Videos', sessionData: req.session})
 
     } else {
         const msg = "" //login page msg fix
-        res.render('auth/login', {title: 'Log in', msg})
+        return res.render('auth/login', {title: 'Log in', msg})
     }
     
 }

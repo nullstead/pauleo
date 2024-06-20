@@ -12,6 +12,9 @@ router.get('/signup', authController.registerPage)
 //register user
 router.post('/register', authController.registerUser)
 
+//verify email
+router.get('/verify/:token', authController.verifyEmail)
+
 //login
 router.get('/login', authController.loginPage)
 
@@ -20,5 +23,6 @@ router.post('/login', authController.logUserIn)
 
 //logout
 router.post('/logout', authController.userLogout)
+
 
 module.exports = router;

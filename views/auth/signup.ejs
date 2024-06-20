@@ -35,6 +35,13 @@
       </div>
     </nav>
 
+    <% if (emailMsg) { %>
+      <div style="width: fit-content; margin: auto;" id="flash" class="alert alert-success alert-dismissible fade show">
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        <%= emailMsg %>
+    </div>
+    <% } %>
+
       <main class="mt-5 pt-5">
         <%= // `Username: ${User.username}, Password: ${User.password}` %>
         <div>
