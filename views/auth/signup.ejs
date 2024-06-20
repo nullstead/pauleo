@@ -6,7 +6,34 @@
 <body id="login">
 
     <!--nav-->
-    <%- include('../partials/nav.ejs') %>
+    <nav class="navbar  bg-dark navbar-dark sticky-top">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="/">
+          <img src="/img/logo.png" alt="Avatar Logo" style="width:150px;" class="rounded-pill">
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="collapsibleNavbar">
+          <ul id="nav-links" class="navbar-nav ">
+            <li class="nav-item">
+              <a class="nav-link text-warning" href="/">Home</a>
+            </li>
+            
+                <li class="nav-item">
+                  <a class="nav-link" href="/auth/login">Log In</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="/auth/signup">Sign Up</a> 
+                </li>
+  
+            <li class="nav-item">
+              <a class="nav-link " href="/about">About</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
 
       <main class="mt-5 pt-5">
         <%= // `Username: ${User.username}, Password: ${User.password}` %>
@@ -14,7 +41,7 @@
             <h5>Sign Up</h5>
         </div>
         <div>
-          <form action="" method="">
+          <form action="/auth/register" method="post">
             <div class="form-floating mb-3 mt-3">
               <input type="text" class="form-control" id="username" placeholder="Enter username" name="username" required>
               <label for="email">Username</label>
@@ -30,7 +57,14 @@
               <label for="pwd">Password</label>
             </div>
 
-            <button type="submit" class="btn btn-dark">Sign up</button>
+            <div class="d-flex justify-content-between align-items-center">
+              <div class="">
+                <button type="submit" class="btn btn-dark">Sign up</button>
+              </div>
+              <div>
+                Already registered? <a href="/auth/login">Login!</a>
+              </div>
+            </div>
           </form>
         </div>
       </main>

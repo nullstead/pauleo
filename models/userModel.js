@@ -1,6 +1,22 @@
 const mongoose = require('mongoose');
-const schema = mongoose.Schema;
+const Schema = mongoose.Schema;
 
-// authTest = {username: 'kponyojdk', password: 'Kikikikiki'}
+const userSchema = new Schema(
+    { 
+        username: {type: String, required: true},
+        email: {type: String, required: true},
+        password: {type: String, require: true},
+        role: {type: String, enum: ['admin', 'user'], default: 'user'},
+        password_reset_token: {type: String},
+        password_reset_expires: {type: Date}
 
-module.exports = 1
+    },
+
+    {
+        timestamps: true
+    }
+)
+
+const User = new mongoose.model('User', userSchema)
+
+module.exports = User

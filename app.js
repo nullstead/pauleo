@@ -1,6 +1,9 @@
 //---IMPORTS---
 const express = require('express');
+const session = require('express-session');
+const MongoDBStore = require('connect-mongodb-session')(session);
 const mongoose = require('mongoose');
+var flash = require('express-flash-messages');
 
 const authRoutes = require('./routes/authRoutes');
 const videoRoutes = require('./routes/videoRoutes');
@@ -13,6 +16,48 @@ const app = express();
 
 
 //---DB CONNECT---
+const dbURI = 'mongodb+srv://ncc:12345@cluster0.ahve76o.mongodb.net/pauleo?retryWrites=true&w=majority&appName=Cluster0';
+const connect = mongoose.connect(dbURI);
+
+connect.then(() => {
+    console.log("Database connected successfully!")
+})
+.catch(() => {
+    console.log("Error connecting to DB")
+})
+
+
+//---SESSION STORE---
+const store = new MongoDBStore({
+    uri: 'mongodb+srv://ncc:12345@cluster0.ahve76o.mongodb.net/pauleo?retryWrites=true&w=majority&appName=Cluster0',
+    collection: 'sessions'
+})
+
+store.on('error', function(error){
+    console.log(error)
+})
+
+
+
+// SESSION MIDDLEWARE
+app.use(session({
+    secret: 'Akplelashortnam',
+    resave: false,
+    saveUninitialized: false,
+    store: store,
+    cookie: {
+        maxAge: 1000 * 60 * 60 * 24, // 1 day
+    },
+}));
+
+// Middleware to check if user is authenticated
+function isAuthenticated(req, res, next){
+    if(req.session.userId){
+        return next()
+    } else {
+        res.status(404).send('You need to log in first!')
+    }
+}
 
 
 
@@ -33,6 +78,7 @@ app.use(express.static('assets'));
 
 //---MIDDLEWARES---
 app.use(express.urlencoded({extended: true})) //for form data
+app.use(express.json());
 
 
 
@@ -40,12 +86,12 @@ app.use(express.urlencoded({extended: true})) //for form data
 
 //index
 app.get('/', (req, res) => {
-    res.render('index', {title: 'Welcome'})
+    res.render('index', {title: 'Welcome', sessionData: req.session})
 })
 
 //about
 app.get('/about', (req, res) => {
-    res.render('about', {title: 'About'})
+    res.render('about', {title: 'About', sessionData: req.session})
 })
 
 //auth routes
@@ -56,7 +102,8 @@ app.use(videoRoutes)
 
 //404
 app.use((req, res) => {
-    res.status(404).render('404', {title: '404'})
+    const sessionData = req.session
+    res.status(404).render('404', {title: '404', sessionData})
 })
 
 
