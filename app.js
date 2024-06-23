@@ -7,9 +7,11 @@ const session = require('express-session');
 const MongoDBStore = require('connect-mongodb-session')(session);
 const mongoose = require('mongoose');
 var flash = require('connect-flash');
+const port = 3000;
 
 const authRoutes = require('./routes/authRoutes');
 const videoRoutes = require('./routes/videoRoutes');
+
 
 
 
@@ -55,6 +57,21 @@ app.use(session({
 }));
 
 app.use(flash());
+
+
+
+
+// Middleware to get the root URL
+app.use((req, res, next) => {
+    req.rootUrl = `${req.protocol}://${req.get('host')}`;
+    console.log(`${req.protocol}://${req.get('host')}`)
+    next();
+  });
+
+  
+
+
+
 
 app.use((req, res, next) => {
     res.locals.messages = req.flash();
@@ -117,5 +134,4 @@ app.use((req, res) => {
 
 
 //---SERVER PORT---
-const port = 3000;
 app.listen(port, () => console.log(`Server started on port ${port} @ http://localhost:${port}`));
