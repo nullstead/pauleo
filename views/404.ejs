@@ -8,6 +8,24 @@
     <!--nav-->
     <%- include('./partials/nav.ejs') %>
 
+    <% if (messages.success) { %>
+        <% messages.success.forEach(function(message) { %>
+            <div style="width: fit-content; margin: auto;" id="flash" class="alert alert-success alert-dismissible fade show">
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                <%= message %>
+            </div>
+        <% }); %>
+    <% } %>
+    
+    <% if (messages.error) { %>
+        <% messages.error.forEach(function(message) { %>
+            <div style="width: fit-content; margin: auto;" id="flash" class="alert alert-danger alert-dismissible fade show">
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                <%= message %>
+            </div>
+        <% }); %>
+    <% } %>
+
       <main>
        <h1 class="text-center p-5" style="color: red;">Oops! :(</h1>
       </main>

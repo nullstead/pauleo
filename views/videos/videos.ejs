@@ -1,0 +1,145 @@
+<html lang="en">
+
+<!--head-->
+<%- include('../partials/head.ejs') %>
+
+<body class="">
+     <!--nav-->
+     <%- include('../partials/nav.ejs') %>
+
+     <% if (messages.success) { %>
+        <% messages.success.forEach(function(message) { %>
+            <div style="width: fit-content; margin: auto;" id="flash" class="alert alert-success alert-dismissible fade show">
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                <%= message %>
+            </div>
+        <% }); %>
+    <% } %>
+    
+    <% if (messages.error) { %>
+        <% messages.error.forEach(function(message) { %>
+            <div style="width: fit-content; margin: auto;" id="flash" class="alert alert-danger alert-dismissible fade show">
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                <%= message %>
+            </div>
+        <% }); %>
+    <% } %>
+
+    <div class="text-center mt-3">
+        <h1 >pauLeo - Video List</h1>
+    </div>
+
+      <main class="d-flex justify-content-center mt-3 mb-5">
+
+        
+        
+        <div class="text-center m-5" style="width: 80%; border: 2px solid rgb(95, 2, 2); border-radius: 10px;">
+
+            <h1><%= video.title %></h1>
+
+            <p><%= video.description %></p>
+
+            <div class="d-flex justify-content-between align-items-center m-4">
+
+                <% if (previousVideo) { %>
+                    <div class=""><a class="btn btn-secondary" href="/videos/<%= previousVideo._id %>"> <<< Previous</a></div>
+                <% } %>
+
+                <video class="" src="<%= video.url %>" controls width="50%" style="margin: auto; border-radius: 10px;" ></video>
+
+                <% if (nextVideo) { %>
+                    <div><a class="btn btn-primary" href="/videos/<%= nextVideo._id %>">Next >>></a></div>
+                <% } %>
+
+            </div>
+
+
+            <div class="d-flex justify-content-center">
+                <div class="p-2">
+                    <a target="_blank" href="/video/<%= video._id %>"><button class="btn btn-dark" >> Go to video</button></a>
+                </div>
+    
+                <div class="p-2">
+                    <div class="dropdown">
+                        <button type="button" class="btn btn-warning dropdown-toggle" data-bs-toggle="dropdown" >+ Share</button>
+                        
+                        <ul class="dropdown-menu">
+                          <li><a style="background-color: chocolate;" class="dropdown-item mb-1" onclick="shareVideo()" href="#">Copy Link</a></li>
+                          <li><a style="background-color: fuchsia" class="dropdown-item mb-1"  onclick="shareOnFacebook()" href="#">Share on Facebook</a></li>
+                          <li><a style="background-color: olivedrab" class="dropdown-item mb-1" onclick="shareOnTwitter()" href="#">Share on Twitter</a></li>
+                          <li><a style="background-color: firebrick" class="dropdown-item" onclick="shareOnLinkedIn()" href="#">Share on LinkedIn</a></li>
+                        </ul>
+                      </div>
+                </div>
+            </div>
+ 
+
+        </div>
+       
+        
+      </main>
+
+       <!--footer-->
+       <%- include('../partials/footer.ejs') %>
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!--custom scripts-->
+    <script>
+        function shareVideo() {
+          const url = window.location.href;
+          navigator.clipboard.writeText(url).then(() => {
+            alert('Link copied to clipboard: ' + url);
+          }).catch(err => {
+            console.error('Could not copy text: ', err);
+          });
+        }
+
+        function shareOnFacebook() {
+            const url = window.location.href;
+            const shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`;
+            window.open(shareUrl, '_blank');
+        }
+
+        function shareOnTwitter() {
+            const url = window.location.href;
+            const text = encodeURIComponent(document.querySelector('h1').innerText);
+            const shareUrl = `https://twitter.com/intent/tweet?url=${encodeURIComponent(url)}&text=${text}`;
+            window.open(shareUrl, '_blank');
+        }
+
+        function shareOnLinkedIn() {
+            const url = window.location.href;
+            const shareUrl = `https://www.linkedin.com/shareArticle?mini=true&url=${encodeURIComponent(url)}`;
+            window.open(shareUrl, '_blank');
+        }
+      </script>
+
+     
+     <script>
+        document.querySelector('#logout').addEventListener('click', async function (e) { 
+             e.preventDefault();
+             
+             try {
+                 const response = await fetch('/auth/logout', {
+                     method: 'POST'
+                 });
+   
+                 if (!response.ok) {
+                     throw new Error('Network response was not ok');
+                 }
+   
+                 const data = await response.json();
+                //  alert(data.message);
+                 location.replace(data.redirect);
+             } catch (error) {
+                 console.error('There has been a problem with your fetch operation:', error);
+             }
+         });
+   
+       </script>
+       
+</body>
+</html>

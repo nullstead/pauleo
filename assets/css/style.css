@@ -10,6 +10,71 @@ body {
 }
 
 
+.bgimg {
+    background-image: url('/img/lbg.jpg');
+    height: 100%;
+    background-position: center;
+    background-size: cover;
+    position: relative;
+    color: white;
+    font-family: "Courier New", Courier, monospace;
+    font-size: 25px;
+  }
+  
+  .topleft {
+    position: absolute;
+    top: 15;
+    left: 45%;
+  }
+  
+  .bottomleft {
+    position: absolute;
+    bottom: 0;
+    left: 16px;
+  }
+  
+  .middle {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+ }
+
+  .middle a {
+    text-decoration: none;
+    
+  }
+
+#dive-in {
+    padding: 8px;
+    background-color: #f44336;
+    font-size: larger;
+    color: white;
+    border-radius: 50%;
+    animation: blinkBackground 1s infinite alternate;
+    font-weight: bolder;
+    width: fit-content;
+    margin: auto;
+}
+
+
+@keyframes blinkBackground {
+    from {
+      background-color: #f44336;
+    }
+    to {
+      background-color: #ff9800;
+    }
+  }
+
+  
+  hr {
+    margin: auto;
+    width: 40%;
+  }
+
+
 
 #nav-links {
     /* float: right; */

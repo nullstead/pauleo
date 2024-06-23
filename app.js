@@ -27,6 +27,7 @@ connect.then(() => {
 })
 
 
+
 //---SESSION STORE---
 const store = new MongoDBStore({
     uri: 'mongodb+srv://ncc:12345@cluster0.ahve76o.mongodb.net/pauleo?retryWrites=true&w=majority&appName=Cluster0',
@@ -65,11 +66,6 @@ function isAuthenticated(req, res, next){
         res.status(404).send('You need to log in first!')
     }
 }
-
-
-
-//---SERVER PORT---
-app.listen(3000)
 
 
 
@@ -115,3 +111,7 @@ app.use((req, res) => {
 
 
 
+
+//---SERVER PORT---
+const port = 3000;
+app.listen(port, () => console.log(`Server started on port ${port} @ http://localhost:${port}`));

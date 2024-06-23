@@ -1,4 +1,5 @@
 const User = require('../models/userModel');
+const Video = require('../models/videoModel');
 const bcrypt = require('bcrypt');
 const nodemailer = require('nodemailer');
 const jwt = require('jsonwebtoken');
@@ -156,14 +157,28 @@ const logUserIn = async (req, res) => {
                     return res.redirect(`/auth/login?msg=${encodeURIComponent(msg)}`)
                     // console.log('wrong password')
                 } else {
+
                     req.session.userId = check._id
                     req.session.username = check.username
                     req.session.email = check.email
                     req.session.role = check.role
 
                     if(check.role == 'user'){
-                        req.flash('success', 'Login successful!');
-                        return res.redirect('/video')
+                        //checking if any video has been uploaded before rendering the paginated page
+                        const video = await Video.findOne().sort({ _id: 1 }).exec()
+
+                        if (video) {
+                            req.flash('success', 'Login successful!');
+                            console.log('At least a video exists!');
+                            return res.redirect('/videos/'+video._id)
+                            
+                        } else {
+                            req.flash('error', 'Sorry... There are no videos to view at the moment!');
+                            console.log('No videos found.');
+                            return res.redirect('404')
+                        }
+
+                        
                     } else if(check.role == 'admin'){
                         return res.redirect('/manage-videos')
                     }
@@ -199,8 +214,20 @@ const logUserIn = async (req, res) => {
                     req.session.role = check.role
 
                     if(check.role == 'user'){
-                        req.flash('success', 'Login successful!');
-                        return res.redirect('/video')
+                         //checking if any video has been uploaded before rendering the paginated page
+                         const video = await Video.findOne().sort({ _id: 1 }).exec()
+
+                         if (video) {
+                             req.flash('success', 'Login successful!');
+                             console.log('At least a video exists!');
+                             return res.redirect('/videos/'+video._id)
+                             
+                         } else {
+                             req.flash('error', 'Sorry... There are no videos to view at the moment!');
+                             console.log('No videos found.');
+                             return res.redirect('404')
+                         }
+
                     } else if(check.role == 'admin'){
                         req.flash('success', 'Login successful!');
                         return res.redirect('/manage-videos')
