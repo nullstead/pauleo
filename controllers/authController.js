@@ -33,8 +33,10 @@ const registerPage = (req, res) => {
 
 
 //email verification
-function sendVerificationEmail(email, token) {
-    const url = `http://localhost:3000/auth/verify/${token}`;
+function sendVerificationEmail(email, token, req) {
+    const rootUrl = `${req.protocol}://${req.get('host')}`
+    const authUrl = `/auth/verify/${token}`
+    const url = rootUrl+authUrl
     
     transport.sendMail({
         to: email,
@@ -77,7 +79,7 @@ const registerUser = async (req, res) => {
             const token = jwt.sign({ userId: result[0]._id }, JWT_SECRET, { expiresIn: '1d' });
 
             // Send verification email
-            sendVerificationEmail(result[0].email, token)
+            sendVerificationEmail(result[0].email, token, req)
 
             // console.log(result)
             const emailMsg = 'Registration successful! Check your email to verify your account.'
@@ -265,8 +267,10 @@ const userLogout = (req, res) => {
 
 
  //password reset email
- function sendPasswordResetEmail(user, token) {
-    const url = `http://localhost:3000/auth/newPassword/${token}`;
+ function sendPasswordResetEmail(user, token, req) {
+    const rootUrl = `${req.protocol}://${req.get('host')}`
+    const authUrl = `/auth/newPassword/${token}`;
+    const url = rootUrl+authUrl
     
     transport.sendMail({
         to: user.email,
@@ -302,7 +306,7 @@ const requestPasswordReset = (async (req, res) => {
         await user.save();
 
         // Send reset email
-        sendPasswordResetEmail(user, token);
+        sendPasswordResetEmail(user, token, req);
         // console.log('Password reset email sent')
         res.send('Password reset email sent! Check your inbox to access the reset link.');
     } catch (error) {

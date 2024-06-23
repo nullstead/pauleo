@@ -62,11 +62,11 @@ app.use(flash());
 
 
 // Middleware to get the root URL
-app.use((req, res, next) => {
-    req.rootUrl = `${req.protocol}://${req.get('host')}`;
-    console.log(`${req.protocol}://${req.get('host')}`)
-    next();
-  });
+// app.use((req, res, next) => {
+//     rootUrl = `${req.protocol}://${req.get('host')}`;
+//     console.log(rootUrl)
+//     next();
+//   });
 
   
 
@@ -93,7 +93,7 @@ function isAuthenticated(req, res, next){
 app.set("views", __dirname + "/views");
 app.set('view engine', 'ejs');
 
-console.log(__dirname)
+// console.log(__dirname)
 
 //---STATIC FILES---
 app.use(express.static(__dirname +'/assets'));
