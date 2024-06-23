@@ -3,7 +3,10 @@ const Video = require('../models/videoModel');
 const bcrypt = require('bcrypt');
 const nodemailer = require('nodemailer');
 const jwt = require('jsonwebtoken');
-const JWT_SECRET = 'Mawunayrawo';
+
+
+//---JWT---
+const JWT_SECRET = process.env.JWT_SECRET;
 
 
 
