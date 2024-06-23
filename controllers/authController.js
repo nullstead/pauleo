@@ -49,7 +49,7 @@ function sendVerificationEmail(email, token, req) {
     
     transport.sendMail({
         to: email,
-        subject: 'pauLeo - Verify your email address',
+        subject: 'pauLeo.com - Verify your email address',
         html: `<h3>Please click <a href="${url}">here</a> to verify your email address to complete your registration.</h3>`,
     });
 }
@@ -283,8 +283,8 @@ const userLogout = (req, res) => {
     
     transport.sendMail({
         to: user.email,
-        subject: 'Password Reset',
-        html: `<h3>Please click <a href="${url}">here</a> to reset your password.`,
+        subject: 'pauLeo.com - Password Reset',
+        html: `<h3>Please click <a href="${url}">here</a> to reset your password.</h3>`,
     });
 }
 
