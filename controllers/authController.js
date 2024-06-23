@@ -11,15 +11,24 @@ const JWT_SECRET = process.env.JWT_SECRET;
 
 
 //---NODE MAILER---
-var transport = nodemailer.createTransport({
-    host: "sandbox.smtp.mailtrap.io",
-    port: 2525,
+// var transport = nodemailer.createTransport({
+//     host: "sandbox.smtp.mailtrap.io",
+//     port: 2525,
+//     auth: {
+//       user: process.env.MAILTRAP_USER,
+//       pass: process.env.MAILTRAP_PASS
+//     }
+//   });
+
+
+  var transport = nodemailer.createTransport({
+    host: "smtp.gmail.com",
+    port: 465,
     auth: {
-      user: process.env.MAILTRAP_USER,
-      pass: process.env.MAILTRAP_PASS
+      user: process.env.GMAIL_USER,
+      pass: process.env.GMAIL_PASS
     }
   });
-
 
 
 //register page
@@ -40,8 +49,8 @@ function sendVerificationEmail(email, token, req) {
     
     transport.sendMail({
         to: email,
-        subject: 'Verify your email address',
-        html: `Click <a href="${url}">here</a> to verify your email address.`,
+        subject: 'pauLeo - Verify your email address',
+        html: `<h3>Please click <a href="${url}">here</a> to verify your email address to complete your registration.</h3>`,
     });
 }
 
@@ -275,7 +284,7 @@ const userLogout = (req, res) => {
     transport.sendMail({
         to: user.email,
         subject: 'Password Reset',
-        html: `Click <a href="${url}">here</a> to reset your password.`,
+        html: `<h3>Please click <a href="${url}">here</a> to reset your password.`,
     });
 }
 
