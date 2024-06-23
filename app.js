@@ -73,12 +73,13 @@ function isAuthenticated(req, res, next){
 
 
 //---VIEW ENGINE---
+app.set("views", __dirname + "/views");
 app.set('view engine', 'ejs');
 
-
+console.log(__dirname)
 
 //---STATIC FILES---
-app.use(express.static('assets'));
+app.use(express.static(__dirname +'/assets'));
 
 
 
