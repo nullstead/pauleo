@@ -303,7 +303,7 @@ const requestPasswordReset = (async (req, res) => {
         const user = await User.findOne({ email });
 
         if (!user) {
-            return res.status(400).send('Invalid email: not registered');
+            return res.status(400).send('<h1>Invalid email: not registered</h1>');
         }
 
         // Generate reset token
@@ -317,7 +317,7 @@ const requestPasswordReset = (async (req, res) => {
         // Send reset email
         sendPasswordResetEmail(user, token, req);
         // console.log('Password reset email sent')
-        res.send('Password reset email sent! Check your inbox to access the reset link.');
+        res.send('<h1>Password reset email sent! Check your inbox to access the reset link.</h1>');
     } catch (error) {
         res.status(500).send('Internal server error');
     }
