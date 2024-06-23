@@ -4,15 +4,12 @@ const multerS3 = require('multer-s3');
 const path = require('path');
 
 
-
-
-
 // AWS S3 configuration
 const s3 = new aws.S3({
-    accessKeyId: 'AKIAU6GDW4LIES2J3A4Z',
-    secretAccessKey: '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',
-    region: 'us-east-1',
-  });
+    accessKeyId: process.env.S3_ACCESS_KEY_ID,
+    secretAccessKey: process.env.S3_SECRET_ACCESS_KEY,
+    region: process.env.S3_REGION,
+});
 
 
 
@@ -20,7 +17,7 @@ const s3 = new aws.S3({
 const upload = multer({
     storage: multerS3({
       s3: s3,
-      bucket: 'pauleo/videos',
+      bucket: process.env.S3_BUCKET,
       acl: 'public-read',
       metadata: (req, file, cb) => {
         cb(null, { fieldName: file.fieldname });

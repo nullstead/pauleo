@@ -3,9 +3,9 @@ const aws = require('aws-sdk');
 
 // AWS S3 configuration
 const s3 = new aws.S3({
-    accessKeyId: 'AKIAU6GDW4LIES2J3A4Z',
-    secretAccessKey: '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',
-    region: 'us-east-1',
+    accessKeyId: process.env.S3_ACCESS_KEY_ID,
+    secretAccessKey: process.env.S3_SECRET_ACCESS_KEY,
+    region: process.env.S3_REGION,
   });
 
 
@@ -47,7 +47,7 @@ const deleteVideo =  async (req, res) => {
       }
   
       const params = {
-        Bucket: 'pauleo/videos',
+        Bucket: process.env.S3_BUCKET,
         Key: video.s3_key,
       };
   

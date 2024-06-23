@@ -1,4 +1,7 @@
 //---IMPORTS---
+require('dotenv').config()
+// console.log(process.env)
+
 const express = require('express');
 const session = require('express-session');
 const MongoDBStore = require('connect-mongodb-session')(session);
@@ -42,7 +45,7 @@ store.on('error', function(error){
 
 // SESSION MIDDLEWARE
 app.use(session({
-    secret: 'Akplelashortnam',
+    secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
     store: store,
