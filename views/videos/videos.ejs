@@ -15,7 +15,7 @@
         #wrapper {
             width: 100%; 
             margin: 5px;
-            border: 2px solid rgb(248, 237, 237); 
+             
             border-radius: 10px;
         }
 
@@ -27,9 +27,7 @@
         }
 
         @media only screen and (max-width:1650px) and (min-width:900px){
-            #wrapper {
-                border: 1px solid orange;
-            }
+            
 
             video {
                 margin: auto; 
@@ -40,9 +38,7 @@
         }
 
         @media only screen and (max-width:925px){
-            #wrapper {
-                border: 1px solid rgb(0, 60, 255);
-            }
+           
 
             video {
                 margin: auto; 
@@ -71,6 +67,11 @@
             <img src="/img/logo.png" alt="Avatar Logo" style="width:200px; border-radius: 50%;" class="">
           </a>
           
+          <div class="text-secondary d-none d-sm-block" style="margin-left: -150px;">
+            <p >[@pauLeo User]</p>
+            <p >Logged in as: <span class="bg-white rounded p-1"><%= sessionData.username %></span></p>
+          </div>
+
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar">
             <span class="navbar-toggler-icon"></span>
           </button>
@@ -90,6 +91,7 @@
           </div>
         </div>
       </nav>
+
 
 
      <% if (messages.success) { %>
@@ -149,10 +151,10 @@
                         <button type="button" class="btn btn-warning dropdown-toggle" data-bs-toggle="dropdown" >+ Share</button>
                         
                         <ul class="dropdown-menu">
-                          <li><a style="background-color: chocolate;" class="dropdown-item mb-1" onclick="shareVideo()" href="#">Copy Link</a></li>
-                          <li><a style="background-color: fuchsia" class="dropdown-item mb-1"  onclick="shareOnFacebook()" href="#">Share on Facebook</a></li>
-                          <li><a style="background-color: olivedrab" class="dropdown-item mb-1" onclick="shareOnTwitter()" href="#">Share on Twitter</a></li>
-                          <li><a style="background-color: firebrick" class="dropdown-item" onclick="shareOnLinkedIn()" href="#">Share on LinkedIn</a></li>
+                          <li><a style="background-color: whitesmoke;" class="dropdown-item mb-1" onclick="shareVideo()" href="#">Copy Link</a></li>
+                          <li><a style="background-color: lightgrey;" class="dropdown-item mb-1"  onclick="shareOnFacebook()" href="#">Share on Facebook</a></li>
+                          <li><a style="background-color: whitesmoke" class="dropdown-item mb-1" onclick="shareOnTwitter()" href="#">Share on Twitter</a></li>
+                          <li><a style="background-color: lightgrey" class="dropdown-item" onclick="shareOnLinkedIn()" href="#">Share on LinkedIn</a></li>
                         </ul>
                       </div>
                 </div>
@@ -174,7 +176,8 @@
     <!--custom scripts-->
     <script>
         function shareVideo() {
-          const url = window.location.href;
+          var url = window.location.href;
+          var url = url.replace('/videos/', '/video/');
           navigator.clipboard.writeText(url).then(() => {
             alert('Link copied to clipboard: ' + url);
           }).catch(err => {
@@ -183,20 +186,23 @@
         }
 
         function shareOnFacebook() {
-            const url = window.location.href;
+            var url = window.location.href;
+            var url = url.replace('/videos/', '/video/');
             const shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`;
             window.open(shareUrl, '_blank');
         }
 
         function shareOnTwitter() {
-            const url = window.location.href;
+            var url = window.location.href;
+            var url = url.replace('/videos/', '/video/');
             const text = encodeURIComponent(document.querySelector('h1').innerText);
             const shareUrl = `https://twitter.com/intent/tweet?url=${encodeURIComponent(url)}&text=${text}`;
             window.open(shareUrl, '_blank');
         }
 
         function shareOnLinkedIn() {
-            const url = window.location.href;
+            var url = window.location.href;
+            var url = url.replace('/videos/', '/video/');
             const shareUrl = `https://www.linkedin.com/shareArticle?mini=true&url=${encodeURIComponent(url)}`;
             window.open(shareUrl, '_blank');
         }

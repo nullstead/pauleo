@@ -66,7 +66,11 @@
               <label for="pwd">Password</label>
             </div>
 
-            <div class="d-flex justify-content-between align-items-center">
+            <div class="pb-2">
+              <input  type="checkbox" id="togglePassword"> Show Password
+            </div>
+
+            <div class="d-flex justify-content-between align-items-center pt-2">
               <div class="">
                 <button type="submit" class="btn btn-dark">Sign up</button>
               </div>
@@ -84,5 +88,19 @@
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+      $('#togglePassword').on('change', function(){
+               // Check if the checkbox is checked
+               if ($(this).is(':checked')) {
+                   // Change the input type to text to show the password
+                   $('#pwd').attr('type', 'text');
+               } else {
+                   // Change the input type back to password to hide the password
+                   $('#pwd').attr('type', 'password');
+               }
+           });
+   </script>
+
 </body>
 </html>

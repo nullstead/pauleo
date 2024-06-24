@@ -52,7 +52,13 @@
             <br>
             <hr>
             <br>
-            <a href="/auth/login"><p id="dive-in">Dive in &rarr;</p></a>
+            <a href="/auth/login"><p id="dive-in">
+              <% if(sessionData.firstVideo){%>
+                Go To Videos &rarr;
+              <% } else { %>
+                Dive in &rarr;
+              <% } %>
+            </p></a>
           </div>
           <div class="bottomleft">
             <p>By: John Kponyo</p>

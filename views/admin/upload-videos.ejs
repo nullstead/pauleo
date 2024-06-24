@@ -9,6 +9,12 @@
           <a class="navbar-brand" href="#">
             <img src="img/logo.png" alt="Avatar Logo" style="width:150px;" class="rounded-pill">
           </a>
+
+          <div class="text-secondary d-none d-sm-block" style="margin-left: -150px;">
+            <p >[@pauLeo Admin]</p>
+            <p >Logged in as: <span class="bg-white rounded p-1"><%= sessionData.username %></span></p>
+          </div>
+
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar">
             <span class="navbar-toggler-icon"></span>
           </button>
@@ -31,7 +37,7 @@
         </div>
         <!-- <p style="color: red;"><%-//msg %> </p> -->
         <div>
-          <form action="/upload" method="post" enctype="multipart/form-data">
+          <form id="upload-form" action="/upload" method="post" enctype="multipart/form-data">
 
             <div class="form-floating mb-3 mt-3">
               <input class="form-control" type="text" id="title" name="title" required>
@@ -95,6 +101,11 @@
            } catch (error) {
                console.error('There has been a problem with your fetch operation:', error);
            }
+       });
+
+
+       $("#upload-form").on('submit', function () {
+          alert('Uploading video...Please wait until the page automatically refreshes!')
        });
  
      </script>

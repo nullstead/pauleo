@@ -7,7 +7,7 @@
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css">
 <link rel="stylesheet" href="/css/style.css">
 <link rel="shortcut icon" href="/img/favicon.png" />
-<title><%= video.title %></title>
+<title><%= video.title %> - <%= video.description %></title>
 
 <style>
     video {
@@ -54,12 +54,25 @@
             <a class="nav-link text-warning" href="/">Home</a>
           </li>
 
+          <% if(!sessionData.userId){ %>
+            <li class="nav-item">
+              <a class="nav-link" href="/auth/login">Log In</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/auth/signup">Sign Up</a> 
+            </li>
+          <% } %>
+
           <li class="nav-item">
             <a class="nav-link " href="/about">About</a>
           </li>
-          <li class="nav-item" style="cursor: pointer;">
-            <p id="logout" class="nav-link last text-danger">Log Out</a>
-          </li>
+          
+          <% if(sessionData.userId){ %>
+            <li class="nav-item" style="cursor: pointer;">
+              <p id="logout" class="nav-link last text-danger">Log Out</a>
+            </li>
+          <% } %>
+
         </ul>
       </div>
     </div>
@@ -73,7 +86,7 @@
 
         
         
-        <div class="text-center " style="width: 100%; border: 1px solid rgb(197, 201, 202); border-radius: 10px;">
+        <div class="text-center " style="width: 100%; ">
 
             <h1><%= video.title %></h1>
 
@@ -82,7 +95,11 @@
 
             <video class="" src="<%= video.url %>" controls ></video>
 
-            <p class="mt-5"><a href="/videos/<%= video._id %>">Back to Videos</a></p>
+            <% if(sessionData.userId){ %>
+                <p class="mt-5"><a href="/videos/<%= video._id %>">Back to Videos</a></p>
+            <% } else { %>
+                <p class="mb-5"></p>
+            <% } %>
 
         </div>
 

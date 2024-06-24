@@ -133,7 +133,7 @@ const videoPage = async (req, res) => {
         const previousVideo = currentIndex > 0 ? allVideos[currentIndex - 1] : null;
         const nextVideo = currentIndex < allVideos.length - 1 ? allVideos[currentIndex + 1] : null;
     
-        res.render('videos/videos', { video, previousVideo, nextVideo, title: 'Video List' });
+        res.render('videos/videos', {sessionData: req.session, video, previousVideo, nextVideo, title: 'Video List' });
 
       } catch (err) {
         res.status(500).json({ error: 'Error fetching video' });
@@ -149,6 +149,13 @@ const videoPage = async (req, res) => {
 const videoUploadPage = (req, res) => {
     // if(req.session.role == 'admin'){
         const sessionData = req.session
+
+        if(sessionData.role === 'user'){
+          console.log(sessionData.role + ' trying to access admin page')
+          req.flash('error', 'Sorry! You are not authorized to access this page.');
+          return res.render('404', {title: 'Unautorized Access'})
+        }
+
         return res.render('admin/upload-videos', {title: 'Admin - Upload Videos', sessionData})
 
     // } 
@@ -162,6 +169,12 @@ const videoUploadPage = (req, res) => {
 const manageVideosPage = async (req, res) => {
     // if(req.session.role == 'admin'){
         const sessionData = req.session
+
+        if(sessionData.role === 'user'){
+          console.log(sessionData.role + ' trying to access admin page')
+          req.flash('error', 'Sorry! You are not authorized to access this page.');
+          return res.render('404', {title: 'Unautorized Access'})
+        }
 
         try {
             const videos = await Video.find().sort({ createdAt: 1 });

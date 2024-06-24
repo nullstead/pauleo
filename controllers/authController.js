@@ -92,7 +92,7 @@ const registerUser = async (req, res) => {
 
             // console.log(result)
             const emailMsg = 'Registration successful! Check your email to verify your account.'
-            return res.redirect(`/auth/signup?emailMsg=${encodeURIComponent(emailMsg)}`)
+            return res.redirect(`/auth/login?emailMsg=${encodeURIComponent(emailMsg)}`)
         }
 
         console.log(req.body)
@@ -133,7 +133,7 @@ const verifyEmail =  async (req, res) => {
 //login
 const loginPage = (req, res) => {
     if(req.session.userId){
-        return res.redirect('/video')
+        return res.redirect(req.session.firstVideo)
 
     } else {
         const msg = req.query.msg
@@ -182,6 +182,7 @@ const logUserIn = async (req, res) => {
                         const video = await Video.findOne().sort({ _id: 1 }).exec()
 
                         if (video) {
+                            req.session.firstVideo = '/videos/'+video._id
                             req.flash('success', 'Login successful!');
                             console.log('At least a video exists!');
                             return res.redirect('/videos/'+video._id)
@@ -232,6 +233,7 @@ const logUserIn = async (req, res) => {
                          const video = await Video.findOne().sort({ _id: 1 }).exec()
 
                          if (video) {
+                             req.session.firstVideo = '/videos/'+video._id
                              req.flash('success', 'Login successful!');
                              console.log('At least a video exists!');
                              return res.redirect('/videos/'+video._id)
@@ -303,7 +305,7 @@ const requestPasswordReset = (async (req, res) => {
         const user = await User.findOne({ email });
 
         if (!user) {
-            return res.status(400).send('<h1>Invalid email: not registered</h1>');
+            return res.status(400).send('<html><script>alert("Sorry! Your email is not registered with us."); function back(){window.history.go(-1)}; back(); </script></html>');
         }
 
         // Generate reset token
@@ -317,7 +319,7 @@ const requestPasswordReset = (async (req, res) => {
         // Send reset email
         sendPasswordResetEmail(user, token, req);
         // console.log('Password reset email sent')
-        res.send('<h1>Password reset email sent! Check your inbox to access the reset link.</h1>');
+        res.send('<html><script>alert("Password reset email sent! Check your inbox to access the reset link."); location.replace("/auth/login") </script></html>');
     } catch (error) {
         res.status(500).send('Internal server error');
     }
@@ -345,7 +347,7 @@ const resetPassword = (async (req, res) => {
         });
 
         if (!user) {
-            return res.status(400).send('Invalid or expired token');
+            return res.status(400).send('<html><script>alert("Invalid or expired token!"); function back(){window.history.go(-1)}; back(); </script></html>');
         }
 
         // Update password
