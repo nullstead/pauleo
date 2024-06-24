@@ -51,11 +51,12 @@ body {
     background-color: #f44336;
     font-size: larger;
     color: white;
-    border-radius: 50%;
-    animation: blinkBackground 1s infinite alternate;
+    border-radius: 0 20px 20px 0;
+    animation: blinkBackground 500ms infinite alternate;
     font-weight: bolder;
     width: fit-content;
     margin: auto;
+    padding: 0 25px;
 }
 
 
@@ -64,7 +65,7 @@ body {
       background-color: #f44336;
     }
     to {
-      background-color: #ff9800;
+      background-color: #666564;
     }
   }
 
@@ -99,6 +100,31 @@ body {
     padding: 20px;
     margin: auto;
 }
+
+
+
+
+
+@media only screen and (max-width:1790px) and (min-width:900px){
+  #login main {
+    width: 50%;
+    padding: 20px;
+    margin: auto;
+    /* border: 1px solid rgb(109, 247, 18); */
+  }
+}
+
+
+@media only screen and (max-width: 899px){
+  #login main {
+    width: 100%;
+    padding: 20px;
+    margin: auto;
+    /* border: 1px solid black; */
+  }
+}
+
+
 
 #about main {
     width: 100%;
