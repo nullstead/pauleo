@@ -1,7 +1,6 @@
 <html lang="en">
 
 <!--head-->
-<%- // include('../partials/head.ejs') %>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -59,7 +58,6 @@
 
 <body class="">
      <!--nav-->
-     <%-// include('../partials/nav.ejs') %>
 
      <nav class="navbar  bg-dark navbar-dark ">
         <div class="container-fluid pr-5 pl-5">
@@ -223,24 +221,12 @@
                  }
    
                  const data = await response.json();
-                //  alert(data.message);
+                
                  location.replace(data.redirect);
              } catch (error) {
                  console.error('There has been a problem with your fetch operation:', error);
              }
          });
-
-        //  if (window.matchMedia("(max-width:925px)").matches) {
-        //         var button = document.getElementById('prev-btn');
-        //         button.textContent = 'Previous Video';
-        //         var button = document.getElementById('next-btn');
-        //         button.textContent = 'Next Video';
-        //  } else {
-        //         var button = document.getElementById('prev-btn');
-        //         button.textContent = 'Next Video >>';
-        //         var button = document.getElementById('next-btn');
-        //         button.textContent = 'Previous Video >>';
-        //  }
    
        </script>
        

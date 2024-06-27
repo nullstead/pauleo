@@ -79,8 +79,6 @@
   </nav>
 
 <body class="">
-
-    <%- //include('../partials/nav.ejs') %>
   
       <main class="d-flex justify-content-center mt-5 " >
 
@@ -153,7 +151,7 @@
                  }
    
                  const data = await response.json();
-                //  alert(data.message);
+                
                  location.replace(data.redirect);
              } catch (error) {
                  console.error('There has been a problem with your fetch operation:', error);

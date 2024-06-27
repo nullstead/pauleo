@@ -8,7 +8,6 @@ const upload = require('../middlewares/uploadMiddleware');
 router.get('/video/:id', videoController.videoPage)
 
 //paginated videos
-// router.get('/videos', videoController.paginatedVideos)
 router.get('/videos/:id', videoController.paginatedVideos)
 
 //admin upload videos page

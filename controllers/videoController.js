@@ -13,7 +13,6 @@ const s3 = new aws.S3({
 const videoUpload = async (req, res) => {
     const { title, description } = req.body;
 
-    // console.log(req.file, req.body)
     const video = new Video({
       title,
       description,
@@ -30,7 +29,6 @@ const videoUpload = async (req, res) => {
       console.log('Error uploading video')
       req.flash('error', 'Error uploading video to S3')
       res.redirect('/manage-videos')
-    //   res.status(500).json({ error: 'Error saving video metadata' });
     }
 
   };
@@ -56,7 +54,6 @@ const deleteVideo =  async (req, res) => {
           console.log('Error deleting video from S3 Bucket')
           req.flash('error', 'Error deleting video from S3');
           return res.redirect('/manage-videos');
-        //   return res.status(500).json({ error: 'Error deleting video from S3' });
         }
   
         await video.deleteOne();
@@ -92,30 +89,6 @@ const videoPage = async (req, res) => {
 
 
 
-// getting all videos with pagination
-// const paginatedVideos =  async (req, res) => {
-//     const perPage = 5;
-//     const page = parseInt(req.query.page) || 1;
-  
-//     try {
-//       const videos = await Video.find()
-//         .skip((perPage * page) - perPage)
-//         .limit(perPage);
-  
-//       const count = await Video.countDocuments();
-  
-//       res.render('videos/videos', {
-//         videos,
-//         current: page,
-//         pages: Math.ceil(count / perPage),
-//         title: 'Video List'
-//       });
-//     } catch (err) {
-//       res.status(500).json({ error: 'Error fetching videos' });
-//     }
-//   };
-
-
 // getting videos with pagination
 
   const paginatedVideos = async (req, res) => {
@@ -147,7 +120,6 @@ const videoPage = async (req, res) => {
 
 //video upload page
 const videoUploadPage = (req, res) => {
-    // if(req.session.role == 'admin'){
         const sessionData = req.session
 
         if(sessionData.role === 'user'){
@@ -157,17 +129,12 @@ const videoUploadPage = (req, res) => {
         }
 
         return res.render('admin/upload-videos', {title: 'Admin - Upload Videos', sessionData})
-
-    // } 
-
-    // res.status(404).send('[Admins Page] You are not authorized to access this page!')
     
 }
 
 
 //video management page
 const manageVideosPage = async (req, res) => {
-    // if(req.session.role == 'admin'){
         const sessionData = req.session
 
         if(sessionData.role === 'user'){
@@ -183,10 +150,6 @@ const manageVideosPage = async (req, res) => {
           } catch (err) {
             res.status(500).json({ error: 'Error fetching videos' });
           }     
-
-    // }
-    
-    // res.status(404).send('[Admins Page] You are not authorized to access this page!')
     
 }
 

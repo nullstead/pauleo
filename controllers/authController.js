@@ -9,18 +9,6 @@ const jwt = require('jsonwebtoken');
 const JWT_SECRET = process.env.JWT_SECRET;
 
 
-
-//---NODE MAILER---
-// var transport = nodemailer.createTransport({
-//     host: "sandbox.smtp.mailtrap.io",
-//     port: 2525,
-//     auth: {
-//       user: process.env.MAILTRAP_USER,
-//       pass: process.env.MAILTRAP_PASS
-//     }
-//   });
-
-
   var transport = nodemailer.createTransport({
     host: "smtp.gmail.com",
     port: 465,
@@ -61,22 +49,17 @@ const registerUser = async (req, res) => {
 
     try {
 
-        // console.log(req.body)
-
         const usernameExists = await User.findOne({username})
         const emailExists = await User.findOne({email})
-        // console.log(userExists)
         if(usernameExists !== null && usernameExists ){
             const msg = 'Username is already taken!'
             res.redirect(`/auth/signup?msg=${encodeURIComponent(msg)}`)
             return;
-            // console.log('User exists!')
 
         } else if(emailExists !== null && emailExists){
             const msg2 = 'Email is already registered!'
             res.redirect(`/auth/signup?msg2=${encodeURIComponent(msg2)}`)
             return;
-            // console.log('Email exists!')
 
         } else {
             const hashedPassword = await bcrypt.hash(password, 10)
@@ -90,7 +73,6 @@ const registerUser = async (req, res) => {
             // Send verification email
             sendVerificationEmail(result[0].email, token, req)
 
-            // console.log(result)
             const emailMsg = 'Registration successful! Check your email to verify your account.'
             return res.redirect(`/auth/login?emailMsg=${encodeURIComponent(emailMsg)}`)
         }
@@ -149,14 +131,12 @@ const logUserIn = async (req, res) => {
     let {credential, password} = req.body
 
     try {
-        // console.log(req.body)
         if(credential.includes('@') && credential.includes('.')){
             const check = await User.findOne({email: credential})
 
             if(!check){
                 const msg = 'Invalid Credentials'
                 return res.redirect(`/auth/login?msg=${encodeURIComponent(msg)}`)
-                // console.log('no user')s
 
             } else if (!check.isVerified) {
                 const emailErrMsg = 'Your email is not verified!'
@@ -164,12 +144,11 @@ const logUserIn = async (req, res) => {
                 return res.redirect(`/auth/login?emailErrMsg=${encodeURIComponent(emailErrMsg)}`)
 
             } 
-                // console.log(check.role, check.password)
+
                 const passwordVerify = await bcrypt.compare(password, check.password)
                 if(!passwordVerify){
                     const msg = 'Invalid Credentials'
                     return res.redirect(`/auth/login?msg=${encodeURIComponent(msg)}`)
-                    // console.log('wrong password')
                 } else {
 
                     req.session.userId = check._id
@@ -178,7 +157,6 @@ const logUserIn = async (req, res) => {
                     req.session.role = check.role
 
                     if(check.role == 'user'){
-                        //checking if any video has been uploaded before rendering the paginated page
                         const video = await Video.findOne().sort({ _id: 1 }).exec()
 
                         if (video) {
@@ -206,7 +184,6 @@ const logUserIn = async (req, res) => {
                 if(!check){
                     const msg = 'Invalid Credentials'
                     res.redirect(`/auth/login?msg=${encodeURIComponent(msg)}`)
-                    // console.log('no user')
 
                 }else if (!check.isVerified) {
                     const emailErrMsg = 'Your email is not verified!'
@@ -214,13 +191,11 @@ const logUserIn = async (req, res) => {
                     return res.redirect(`/auth/login?emailErrMsg=${encodeURIComponent(emailErrMsg)}`)
 
                 } else {
-                    // console.log(check.role, check.password)
                     const passwordVerify = await bcrypt.compare(password, check.password)
 
                     if(!passwordVerify){
                         const msg = 'Invalid Credentials'
                         return res.redirect(`/auth/login?msg=${encodeURIComponent(msg)}`)
-                        // console.log('wrong password')
                     } 
 
                     req.session.userId = check._id
@@ -229,7 +204,6 @@ const logUserIn = async (req, res) => {
                     req.session.role = check.role
 
                     if(check.role == 'user'){
-                         //checking if any video has been uploaded before rendering the paginated page
                          const video = await Video.findOne().sort({ _id: 1 }).exec()
 
                          if (video) {
@@ -318,7 +292,7 @@ const requestPasswordReset = (async (req, res) => {
 
         // Send reset email
         sendPasswordResetEmail(user, token, req);
-        // console.log('Password reset email sent')
+
         res.send('<html><script>alert("Password reset email sent! Check your inbox to access the reset link."); location.replace("/auth/login") </script></html>');
     } catch (error) {
         res.status(500).send('Internal server error');
@@ -336,7 +310,7 @@ const newPassword = (async (req, res) => {
 const resetPassword = (async (req, res) => {
     const { token } = req.params;
     const { password } = req.body;
-    // console.log(token, password)
+    
 
     try {
         const decoded = jwt.verify(token, JWT_SECRET);

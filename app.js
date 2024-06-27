@@ -1,6 +1,5 @@
 //---IMPORTS---
 require('dotenv').config()
-// console.log(process.env)
 
 const express = require('express');
 const session = require('express-session');
@@ -61,18 +60,6 @@ app.use(flash());
 
 
 
-// Middleware to get the root URL
-// app.use((req, res, next) => {
-//     rootUrl = `${req.protocol}://${req.get('host')}`;
-//     console.log(rootUrl)
-//     next();
-//   });
-
-  
-
-
-
-
 app.use((req, res, next) => {
     res.locals.messages = req.flash();
     next();
@@ -93,7 +80,6 @@ function isAuthenticated(req, res, next){
 app.set("views", __dirname + "/views");
 app.set('view engine', 'ejs');
 
-// console.log(__dirname)
 
 //---STATIC FILES---
 app.use(express.static(__dirname +'/assets'));
