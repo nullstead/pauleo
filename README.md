@@ -8,7 +8,7 @@ Welcome to Paul Leonard's Video Hosting Platform – a bespoke solution designed
 
 ## Table of Contents
 
-- [Deployed Link](https://pauleo.vercel.app/)
+- [Deployed Link](https://pauleo.vercel.app/)  
 - [Features](#features)
 - [Technologies & Packages Used](#technologies-used)
 - [Project Structure](#project-structure-setup-and-installation)
@@ -16,7 +16,10 @@ Welcome to Paul Leonard's Video Hosting Platform – a bespoke solution designed
 - [Contributing](#contributing)
 - [Contact](#contact)
 
+## Admin Login
 
+-  Email: admin@pauleo.com
+-  Password: admin123
 
 ## Features
 
@@ -133,7 +136,9 @@ video-platform/
 2. Access the application in your web browser at http://localhost:3000.
    
 3. **Admin Login**
-  Navigate to http://localhost:3000/auth/login to access the login page. Use the credentials provided during admin setup.
+  Navigate to http://localhost:3000/auth/login to access the login page. Use the credentials below;
+  - Email: admin@pauleo.com
+  - Password: admin123
 
 4. **Upload Videos**
   Once logged in, use the admin dashboard to upload new videos, and manage existing videos.
